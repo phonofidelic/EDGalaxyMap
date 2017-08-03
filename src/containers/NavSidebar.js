@@ -31,27 +31,34 @@ class NavSidebar extends Component {
 	}
 
 	render() {
-		const { handleSubmit } = this.props;
+		const { handleSubmit, showSidebar } = this.props;
 		return(
 			<div className="nav-sidebar">
-				<div className="nav-sidebar-header">
-					<h2>Sidebar Header</h2>
-				</div>
-				<form onSubmit={handleSubmit(this.handleSearchSubmit.bind(this))}>
-					<Field name="systemName" type="text" component="input"/>
-					<button type="submit">Search</button>
-				</form>
-				{this.renderInfo()}
+				<button onClick={() => {this.props.toggleSideBar()}}>Toggle sidebar</button>
+				{showSidebar &&
+					<div>
+						<div className="nav-sidebar-header">
+							<h2>Sidebar Header</h2>
+						</div>				 
+					
+						<form onSubmit={handleSubmit(this.handleSearchSubmit.bind(this))}>
+							<Field name="systemName" type="text" component="input"/>
+							<button type="submit">Search</button>
+						</form>
+						{this.renderInfo()}
+					</div>
+				}
 			</div>
 		);
 	}
 }
 
 const mapStateToProps = state => {
-	// console.log('NavSidebar, state:', state)
+	console.log('NavSidebar, state:', state.inputReducer.showSidebar)
 	return {
 		targetSystem: state.inputReducer.targetSystem,
-		targetSystemName: state.inputReducer.targetSystemName
+		targetSystemName: state.inputReducer.targetSystemName,
+		showSidebar: state.inputReducer.showSidebar
 	}
 }
 

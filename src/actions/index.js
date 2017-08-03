@@ -1,7 +1,8 @@
 import { 
 	SEARCH_SYSTEM_NAME,
 	RECEIVE_SYSTEM_INFO,
-	RECEIVE_SYSTEMS_BY_NAME } from '../actiontypes';
+	RECEIVE_SYSTEMS_BY_NAME,
+	TOGGLE_SIDEBAR } from '../actiontypes';
 import axios from 'axios';
 
 const EDSM_SPHERE_SYSTEMS = 'https://www.edsm.net/api-v1/sphere-systems/';
@@ -26,22 +27,13 @@ export const searchSystemName = formData => {
 			// Check for undefined props
 			targetSystem.primaryStar? null : targetSystem.primaryStar = {type: 'N/A'};
 
-			// for (var prop in targetSystem) {
-			// 	if (targetSystem.hasOwnProperty(prop)) {
-			// 		console.log('### targetSystem, prop:', prop+': '+targetSystem[prop])
-			// 		if(!targetSystem[prop]) {
-			// 			targetSystem[prop] = 'N/A';
-			// 		}
-			// 	}
-			// }
-
 			dispatch({
 				type: RECEIVE_SYSTEM_INFO,
 				targetSystem: targetSystem
 			})
 		})
 
-		axios.get(`${EDSM_SPHERE_SYSTEMS}?systemName=${formData.systemName}&radius=10&showCoordinates=1`)
+		axios.get(`${EDSM_SPHERE_SYSTEMS}?systemName=${formData.systemName}&radius=50&showCoordinates=1`)
 		.then(response => {
 			console.log('@ searchSystemName, radius response:', response);
 
@@ -54,5 +46,13 @@ export const searchSystemName = formData => {
 			console.error('searchSystemName error:', err);
 		});
 	}
-	
-}
+};
+
+export const toggleSideBar = () => {
+	console.log('### toggleSideBar')
+	return dispatch => {
+		dispatch({
+			type: TOGGLE_SIDEBAR
+		});
+	}
+};

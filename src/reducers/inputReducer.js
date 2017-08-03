@@ -1,12 +1,14 @@
 import { 
 	SEARCH_SYSTEM_NAME,
 	RECEIVE_SYSTEM_INFO,
-	RECEIVE_SYSTEMS_BY_NAME } from '../actiontypes';
+	RECEIVE_SYSTEMS_BY_NAME,
+	TOGGLE_SIDEBAR } from '../actiontypes';
 
 const INITIAL_STATE = {
 	targetSystem: null,
 	targetSystemName: null,
-	systemList: null
+	systemList: null,
+	showSidebar: true
 };
 
 const inputReducer = (state = INITIAL_STATE, action) => {
@@ -27,6 +29,12 @@ const inputReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				systemList: action.systemList
+			}
+
+		case TOGGLE_SIDEBAR:
+			return {
+				...state,
+				showSidebar: !state.showSidebar
 			}
 
 		default: return state;
