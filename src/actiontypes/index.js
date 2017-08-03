@@ -1,0 +1,1 @@
+export const SEARCH_SYSTEM_NAME = 'search_system_name';
