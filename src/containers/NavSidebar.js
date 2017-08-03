@@ -13,9 +13,11 @@ class NavSidebar extends Component {
 		this.props.searchSystemName(formProps);
 	}
 
-	renderDebug() {		
+	renderInfo() {		
 		return(
-			<div>Debug</div>
+			<div className="sidebar-info">Info
+				<div className="sidebar-system-name">{this.props.targetSystemName}</div>
+			</div>
 		);
 	}
 
@@ -25,16 +27,17 @@ class NavSidebar extends Component {
 			<div className="nav-sidebar">
 				<h2>Sidebar</h2>
 				<form onSubmit={handleSubmit(this.handleSearchSubmit.bind(this))}>
-					<Field name="system-name" type="text" component="input"/>
+					<Field name="systemName" type="text" component="input"/>
 					<button type="submit">Search</button>
 				</form>
-				{this.renderDebug()}
+				{this.renderInfo()}
 			</div>
 		);
 	}
 }
 
 const mapStateToProps = state => {
+	console.log('NavSidebar, state:', state)
 	return {
 		targetSystemName: state.inputReducer.targetSystemName
 	}

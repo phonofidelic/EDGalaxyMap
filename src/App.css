@@ -4,3 +4,14 @@
   z-index: 1000;
   margin: 20px;
 }
+
+.sidebar-info {
+  margin-top: 20px;
+}
+
+.sidebar-system-name {
+  margin-top: 10px;
+  padding: 5px;
+  border-top: 1px solid #e3a03c;
+  border-bottom: 1px solid #e3a03c;
+}
