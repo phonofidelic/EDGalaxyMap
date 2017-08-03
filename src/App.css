@@ -3,14 +3,16 @@
   position: absolute;
   z-index: 1000;
   margin: 20px;
+  background: rgba(0, 0, 0, 0.5)
 }
 
-.sidebar-info {
+.nav-sidebar-info {
   margin-top: 20px;
 }
 
 .sidebar-system-name {
   margin-top: 10px;
+  margin-bottom: 10px;
   padding: 5px;
   border-top: 1px solid #e3a03c;
   border-bottom: 1px solid #e3a03c;
