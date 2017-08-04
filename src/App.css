@@ -101,3 +101,11 @@ button {
   right: 0px;
 }
 
+.loading-icon {
+  position: absolute;
+  left: 50vw;
+  top: 50vh;
+  color: '#fff';
+  z-index: 1002;
+}
+

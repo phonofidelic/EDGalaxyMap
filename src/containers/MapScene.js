@@ -8,6 +8,11 @@ const DEVIDER = 1;
 
 class MapScene extends Component {
 
+	constructor(props) {
+		super(props);
+		this.props.init();
+	}
+
 	handleClick(system) {
 		console.log('System clicked!', system);
 		this.props.selectSystem(system.target.id, this.props.systemList);
@@ -49,8 +54,14 @@ class MapScene extends Component {
 		);
 	}
 
+	renderLoadingIcon() {
+		return (
+			<h1 className="loading-icon">Loading</h1>
+		);
+	}
+
 	render() {
-		const { targetSystemName, targetSystem, systemList } = this.props;
+		const { targetSystemName, targetSystem, systemList, fetching } = this.props;
 		return (
 			<Scene>
 				<Entity primitive="a-sky" color="black" />
@@ -72,6 +83,8 @@ class MapScene extends Component {
 									position={{x: 0, y: 0, z: -5}} />
 				}
 
+				{fetching && this.renderLoadingIcon()}
+
 				{/* targetSystemName && this.renderTargetSystem() */}
 				{ systemList && this.renderNearbySystems() }
 
@@ -85,7 +98,8 @@ const mapStateToProps = state => {
 	return {
 		targetSystem: state.inputReducer.targetSystem,
 		targetSystemName: state.inputReducer.targetSystemName,
-		systemList: state.inputReducer.systemList
+		systemList: state.inputReducer.systemList,
+		fetching: state.inputReducer.fetching
 	}
 }
 

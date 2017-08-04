@@ -3,21 +3,30 @@ import {
 	RECEIVE_SYSTEM_INFO,
 	RECEIVE_SYSTEMS_BY_NAME,
 	TOGGLE_SIDEBAR,
-	SELECT_SYSTEM } from '../actiontypes';
+	SELECT_SYSTEM,
+	FETCH_SYSTEM_INFO } from '../actiontypes';
 
 const INITIAL_STATE = {
 	targetSystem: null,
 	targetSystemName: null,
 	systemList: null,
-	showSidebar: true
+	showSidebar: true,
+	fetching:false
 };
 
 const inputReducer = (state = INITIAL_STATE, action) => {
 	switch(action.type) {
+		case FETCH_SYSTEM_INFO:
+			return {
+				...state,
+				fetching: true
+			}
+
 		case SEARCH_SYSTEM_NAME:
 			return {
 				...state,
-				targetSystemName: action.targetSystemName
+				targetSystemName: action.targetSystemName,
+				fetching: true
 			}
 
 		case RECEIVE_SYSTEM_INFO:
@@ -29,7 +38,8 @@ const inputReducer = (state = INITIAL_STATE, action) => {
 		case RECEIVE_SYSTEMS_BY_NAME:
 			return {
 				...state,
-				systemList: action.systemList
+				systemList: action.systemList,
+				fetching: false
 			}
 
 		case TOGGLE_SIDEBAR:
