@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'aframe';
 import {Entity, Scene} from 'aframe-react';
+import 'aframe-look-at-component';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
@@ -17,22 +18,8 @@ class MapScene extends Component {
 		console.log('System clicked!', system);
 		this.props.selectSystem(system.target.id, this.props.systemList);
 	}
-	
 
-	// renderTargetSystem() {
-	// 	const { targetSystemName } = this.props;
-	// 	return (
-	// 		<Entity position={{x: 0, y: 0, z: -5}}>
-	// 			<Entity geometry={{primitive: 'sphere', radius: 0.2}}
-	// 							material={{color: '#fff'}} />
-
-	// 			<Entity text={{value: targetSystemName, color: '#fff', width: 4}}
-	// 							position={{x: 2, y: 0.5, z: 0}} />
-	// 		</Entity>
-	// 	);
-	// }
-
-	renderNearbySystems() {
+	renderSystemList() {
 		const { systemList } = this.props;		
 		
 		return (
@@ -46,7 +33,8 @@ class MapScene extends Component {
 															id={system.id} />
 
 											<Entity text={{value: system.name, color: '#fff', width: 4}}
-															position={{x: 2, y: 0.3, z: 0}} />
+															position={{x: 2, y: 0.3, z: 0}}
+															look-at="#camera" />
 										</Entity>
 									)
 				})}
@@ -54,26 +42,15 @@ class MapScene extends Component {
 		);
 	}
 
-	renderLoadingIcon() {
-		return (
-			<h1 className="loading-icon">Loading</h1>
-		);
-	}
-
 	render() {
-		const { targetSystemName, targetSystem, systemList, fetching } = this.props;
+		const { targetSystemName, targetSystem, systemList } = this.props;
 		return (
 			<Scene>
-				{/* <Entity primitive="a-assets">
-									<img id="ed-loader" src="public/assets/EDLoader1-opt.svg" />
-								</Entity> */}
-
 				<Entity primitive="a-sky" color="black" />
 
 				{targetSystem && 
 					<Entity position={{x: targetSystem.coords.x/DEVIDER, y: targetSystem.coords.y/DEVIDER, z: targetSystem.coords.z/DEVIDER}}>
-						<Entity primitive="a-camera" position={{x: 0, y: 0, z: 2}}>
-							{/* <Entity primitive="a-image" src="#ed-loader" position={{x: 0, y: 0, z: -1}} /> */}
+						<Entity primitive="a-camera" id="camera" position={{x: 0, y: 0, z: 2}}>
 							<Entity cursor={{fuse: false}}
 											position={{x: 0, y: 0, z: -1}}
 											geometry={{primitive: 'ring', radiusInner: 0.02, radiusOuter: 0.03}}
@@ -87,10 +64,7 @@ class MapScene extends Component {
 									position={{x: 0, y: 0, z: -5}} />
 				}
 
-				{/* fetching && this.renderLoadingIcon() */}
-
-				{/* targetSystemName && this.renderTargetSystem() */}
-				{ systemList && this.renderNearbySystems() }
+				{ systemList && this.renderSystemList() }
 
 			</Scene>
 		);
@@ -102,8 +76,7 @@ const mapStateToProps = state => {
 	return {
 		targetSystem: state.inputReducer.targetSystem,
 		targetSystemName: state.inputReducer.targetSystemName,
-		systemList: state.inputReducer.systemList,
-		fetching: state.inputReducer.fetching
+		systemList: state.inputReducer.systemList
 	}
 }
 

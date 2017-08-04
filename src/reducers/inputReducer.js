@@ -53,6 +53,7 @@ const inputReducer = (state = INITIAL_STATE, action) => {
 			if (system.id === action.systemId) {
 				return system 
 			}
+			return;
 		});
 
 			return {

@@ -35,7 +35,7 @@ class NavSidebar extends Component {
 	renderLoadingIcon() {
 		return (
 			<div className="loading-icon">
-				<img src="assets/EDLoader1.svg" />
+				<img src="assets/EDLoader1.svg" alt="loading..."/>
 			</div>
 		);
 	}
@@ -48,7 +48,7 @@ class NavSidebar extends Component {
 				{showSidebar &&
 					<div>
 						<div className="nav-sidebar-header">
-							<img className="carto-logo" src="assets/universal-cartographics.svg" />
+							<img className="carto-logo" src="assets/universal-cartographics.svg" alt="Logo"/>
 							<div className="nav-sidebar-title">
 								<div className="sub-title-text">Universal</div>
 								<h2 className="main-title-text">CARTOGRAPHICS</h2>
