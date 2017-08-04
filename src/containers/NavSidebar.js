@@ -20,11 +20,13 @@ class NavSidebar extends Component {
 			return (
 				<div className="nav-sidebar-info">
 					<div className="sidebar-system-name">{targetSystem.name}</div>
-					<div>Star type: {targetSystem.primaryStar.type}</div>
-					<div>Allegiance: {targetSystem.information.allegiance}</div>
-					<div>Economy: {targetSystem.information.economy}</div>
-					<div>Gevornment: {targetSystem.information.government}</div>
-					<div>Population: {targetSystem.information.population}</div>
+					<div className="sidebar-system-info">
+						<div>Star type: {targetSystem.primaryStar.type}</div>
+						<div>Allegiance: {targetSystem.information.allegiance}</div>
+						<div>Economy: {targetSystem.information.economy}</div>
+						<div>Gevornment: {targetSystem.information.government}</div>
+						<div>Population: {targetSystem.information.population}</div>
+					</div>
 				</div>
 			);
 		}
@@ -34,16 +36,20 @@ class NavSidebar extends Component {
 		const { handleSubmit, showSidebar } = this.props;
 		return(
 			<div className="nav-sidebar">
-				<button onClick={() => {this.props.toggleSideBar()}}>Toggle sidebar</button>
+				<button className="btn" onClick={() => {this.props.toggleSideBar()}}>Toggle sidebar</button>
 				{showSidebar &&
 					<div>
 						<div className="nav-sidebar-header">
-							<h2>Sidebar Header</h2>
+							<img className="carto-logo" src="assets/universal-cartographics.svg" />
+							<div className="nav-sidebar-title">
+								<div className="sub-title-text">Universal</div>
+								<h2 className="main-title-text">CARTOGRAPHICS</h2>
+							</div>
 						</div>				 
 					
-						<form onSubmit={handleSubmit(this.handleSearchSubmit.bind(this))}>
-							<Field name="systemName" type="text" component="input"/>
-							<button type="submit">Search</button>
+						<form className="search-form" onSubmit={handleSubmit(this.handleSearchSubmit.bind(this))}>
+							<Field className="search-input" name="systemName" type="text" component="input"/>
+							<button className="btn-search" type="submit">Search</button>
 						</form>
 						{this.renderInfo()}
 					</div>

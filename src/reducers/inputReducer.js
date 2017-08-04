@@ -2,7 +2,8 @@ import {
 	SEARCH_SYSTEM_NAME,
 	RECEIVE_SYSTEM_INFO,
 	RECEIVE_SYSTEMS_BY_NAME,
-	TOGGLE_SIDEBAR } from '../actiontypes';
+	TOGGLE_SIDEBAR,
+	SELECT_SYSTEM } from '../actiontypes';
 
 const INITIAL_STATE = {
 	targetSystem: null,
@@ -35,6 +36,18 @@ const inputReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				showSidebar: !state.showSidebar
+			}
+
+		case SELECT_SYSTEM:
+		const selectedSystem = state.systemList.map(system => {
+			if (system.id === action.systemId) {
+				return system 
+			}
+		});
+
+			return {
+				...state,
+				targetSystem: selectedSystem
 			}
 
 		default: return state;

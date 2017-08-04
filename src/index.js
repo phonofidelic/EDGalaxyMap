@@ -7,14 +7,23 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 import rootReducer from './reducers';
+import WebfontLoader from '@dr-kobros/react-webfont-loader';
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 
 const store = createStoreWithMiddleware(rootReducer);
 
+const config = {
+	google: {
+		families: ['Saira:300,400', 'Saira Condensed:300']
+	}
+}
+
 ReactDOM.render(
 	<Provider store={store}>
-		<App />
+		<WebfontLoader config={config}>
+			<App />
+		</WebfontLoader>
 	</Provider>, 
 	document.getElementById('root')
 );

@@ -6,6 +6,7 @@
     "react-scripts": "1.0.10"
   },
   "dependencies": {
+    "@dr-kobros/react-webfont-loader": "^2.0.1",
     "aframe": "^0.6.1",
     "aframe-react": "^4.3.0",
     "axios": "^0.16.2",
