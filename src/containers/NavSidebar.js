@@ -32,8 +32,16 @@ class NavSidebar extends Component {
 		}
 	}
 
+	renderLoadingIcon() {
+		return (
+			<div className="loading-icon">
+				<img src="assets/EDLoader1.svg" />
+			</div>
+		);
+	}
+
 	render() {
-		const { handleSubmit, showSidebar } = this.props;
+		const { handleSubmit, showSidebar, fetching } = this.props;
 		return(
 			<div className="nav-sidebar">
 				<button className="btn" onClick={() => {this.props.toggleSideBar()}}>Toggle sidebar</button>
@@ -52,8 +60,10 @@ class NavSidebar extends Component {
 							<button className="btn-search" type="submit">Search</button>
 						</form>
 						{this.renderInfo()}
+						
 					</div>
 				}
+				{fetching && this.renderLoadingIcon()}
 			</div>
 		);
 	}
@@ -64,7 +74,8 @@ const mapStateToProps = state => {
 	return {
 		targetSystem: state.inputReducer.targetSystem,
 		targetSystemName: state.inputReducer.targetSystemName,
-		showSidebar: state.inputReducer.showSidebar
+		showSidebar: state.inputReducer.showSidebar,
+		fetching: state.inputReducer.fetching
 	}
 }
 

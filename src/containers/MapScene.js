@@ -64,12 +64,16 @@ class MapScene extends Component {
 		const { targetSystemName, targetSystem, systemList, fetching } = this.props;
 		return (
 			<Scene>
+				{/* <Entity primitive="a-assets">
+									<img id="ed-loader" src="public/assets/EDLoader1-opt.svg" />
+								</Entity> */}
+
 				<Entity primitive="a-sky" color="black" />
 
 				{targetSystem && 
 					<Entity position={{x: targetSystem.coords.x/DEVIDER, y: targetSystem.coords.y/DEVIDER, z: targetSystem.coords.z/DEVIDER}}>
 						<Entity primitive="a-camera" position={{x: 0, y: 0, z: 2}}>
-							{/* TODO: add cursor here */}
+							{/* <Entity primitive="a-image" src="#ed-loader" position={{x: 0, y: 0, z: -1}} /> */}
 							<Entity cursor={{fuse: false}}
 											position={{x: 0, y: 0, z: -1}}
 											geometry={{primitive: 'ring', radiusInner: 0.02, radiusOuter: 0.03}}
@@ -83,7 +87,7 @@ class MapScene extends Component {
 									position={{x: 0, y: 0, z: -5}} />
 				}
 
-				{fetching && this.renderLoadingIcon()}
+				{/* fetching && this.renderLoadingIcon() */}
 
 				{/* targetSystemName && this.renderTargetSystem() */}
 				{ systemList && this.renderNearbySystems() }
