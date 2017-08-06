@@ -4,7 +4,8 @@ import {
 	RECEIVE_SYSTEMS_BY_NAME,
 	TOGGLE_SIDEBAR,
 	FETCH_SYSTEM_INFO,
-	SET_SYSTEM_DISTANCE } from '../actiontypes';
+	SET_SYSTEM_DISTANCE,
+	TOGGLE_SYSTEM_LABELS } from '../actiontypes';
 import axios from 'axios';
 
 const INIT_SYSTEM_NAME = 'Merope';
@@ -170,12 +171,10 @@ export const calculateDistance = (systemList, userPos) => {
 }
 
 
-export const handleUserMoved = evt => {
-	console.log('user moved');
+export const toggleSystemLabels = () => {
 	return dispatch => {
 		dispatch({
-
-		})
+			type: TOGGLE_SYSTEM_LABELS
+		});
 	}
 }
-

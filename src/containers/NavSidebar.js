@@ -27,6 +27,7 @@ class NavSidebar extends Component {
 						<div>Gevornment: {targetSystem.information.government}</div>
 						<div>Population: {targetSystem.information.population}</div>
 					</div>
+					<button onClick={() => {this.props.toggleSystemLabels()}}>Toggle System Labels</button>
 				</div>
 			);
 		}

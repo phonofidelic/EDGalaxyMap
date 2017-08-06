@@ -24,7 +24,7 @@ class MapScene extends Component {
 	}
 
 	renderSystemList() {
-		// const { systemList } = this.props;		
+		const { showSystemLabels } = this.props;		
 		console.log('## renderSystemList is called')
 		return (
 			<Entity id="system-list">
@@ -63,7 +63,7 @@ class MapScene extends Component {
 							*/}
 
 							{ 
-								system.distance <= 10 && <Entity text={{value: system.name, color: '#fff', width: 4}}
+								showSystemLabels && <Entity text={{value: system.name, color: '#fff', width: 4}}
 											position={{x: 2, y: 0.3, z: 0}}
 											look-at="#camera" />
 							}
@@ -131,7 +131,8 @@ const mapStateToProps = state => {
 	return {
 		targetSystem: state.inputReducer.targetSystem,
 		targetSystemName: state.inputReducer.targetSystemName,
-		systemList: state.inputReducer.systemList
+		systemList: state.inputReducer.systemList,
+		showSystemLabels: state.inputReducer.showSystemLabels
 	}
 }
 
