@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'aframe';
-import {Entity, Scene} from 'aframe-react';
+import { Entity, Scene } from 'aframe-react';
 import 'aframe-look-at-component';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -14,57 +14,110 @@ class MapScene extends Component {
 		this.props.init();
 	}
 
-	handleClick(system) {
+	handleSelectSystem(system) {
 		console.log('System clicked!', system);
 		this.props.selectSystem(system.target.id, this.props.systemList);
 	}
 
-	renderSystemList() {
-		const { systemList } = this.props;		
-		
-		return (
-			<Entity>
-				{systemList.map((system, i) => {
-									return (
-										<Entity key={i} position={{x:system.coords.x/DEVIDER, y: system.coords.y/DEVIDER, z: system.coords.z/DEVIDER}}>
-											<Entity geometry={{primitive: 'sphere', radius: 0.1}}
-															material={{color: '#ccc'}} 
-															events={{click: this.handleClick.bind(this)}}
-															id={system.id} />
+	handleUserMove(evt) {
+		console.log('system heard you move!', evt)
+	}
 
-											<Entity text={{value: system.name, color: '#fff', width: 4}}
-															position={{x: 2, y: 0.3, z: 0}}
-															look-at="#camera" />
-										</Entity>
-									)
+	renderSystemList() {
+		// const { systemList } = this.props;		
+		console.log('## renderSystemList is called')
+		return (
+			<Entity id="system-list">
+				{this.props.systemList.map((system, i) => {
+
+					// add event listener for camera position chganges
+					// const systemEntity = document.querySelector('#'+system.id);
+					// if (systemEntity) {
+					// 	systemEntity.addEventListener('usermoved', evt => {
+					// 		console.log('system heard you move')
+					// 	})
+					// }
+					// console.log('### system.distance:', system.distance)
+					// console.log('### system node', document.querySelector('#'+system.id))
+					return (
+						<Entity key={i}
+										id={system.id}
+										events={{componentchanged: this.handleUserMove.bind(this)}}
+										position={{x:system.coords.x/DEVIDER, y: system.coords.y/DEVIDER, z: system.coords.z/DEVIDER}} >
+							<Entity geometry={{primitive: 'sphere', radius: 0.1}}
+											material={{color: '#ccc'}}
+											id={`${system.id}-sphere`}
+											events={{click: this.handleSelectSystem.bind(this)}}
+											 />
+
+							{/* 
+								Calculate distance between system entity and camera entity:
+								
+								square root of system coords - camera coords
+
+								const userPos = document.querySelector('#user-pos').object3D.position;
+								Math.sqrt(Math.pow(system.coods.x - userPos.x, 2) + Math.pow(system.coods.y - userPos.y, 2) + Math.pow(system.coods.z - userPos.z, 2))
+
+								If the resulting distance is greater then some set constant,
+								do not render the systems text label entity.
+							*/}
+
+							{ 
+								system.distance <= 10 && <Entity text={{value: system.name, color: '#fff', width: 4}}
+											position={{x: 2, y: 0.3, z: 0}}
+											look-at="#camera" />
+							}
+
+							
+						</Entity>
+					)
 				})}
 			</Entity>
 		);
 	}
 
+	handleCameraMove(evt) {
+		const {systemList} = this.props;
+		if (evt.detail.name === 'position') {
+			console.log('@ handleCameraMove, evt:', evt)
+			// evt.target.emit('usermoved')
+			if (systemList) {
+				this.props.calculateDistance(systemList, evt.detail.newData);
+			}
+		}
+	}
+
 	render() {
 		const { targetSystemName, targetSystem, systemList } = this.props;
+		const camera = document.querySelector('#camera');
+
 		return (
 			<Scene>
 				<Entity primitive="a-sky" color="black" />
 
 				{targetSystem && 
-					<Entity position={{x: targetSystem.coords.x/DEVIDER, y: targetSystem.coords.y/DEVIDER, z: targetSystem.coords.z/DEVIDER}}>
-						<Entity primitive="a-camera" id="camera" position={{x: 0, y: 0, z: 2}}>
+				
+						<Entity primitive="a-camera" id="camera" position={{
+															x: targetSystem.coords.x/DEVIDER, 
+															y: targetSystem.coords.y/DEVIDER, 
+															z: targetSystem.coords.z/DEVIDER + 1
+														}}
+										events={{componentchanged: this.handleCameraMove.bind(this)}} >
 							<Entity cursor={{fuse: false}}
 											position={{x: 0, y: 0, z: -1}}
 											geometry={{primitive: 'ring', radiusInner: 0.02, radiusOuter: 0.03}}
 											material={{color: '#fff', shader: 'flat'}} />
 						</Entity>
-					</Entity>
+
 				}
 
-				{ !targetSystemName && 
+				{ !targetSystem && 
 					<Entity text={{value: 'Enter the name of the system you wish to view.', width: 4}}
 									position={{x: 0, y: 0, z: -5}} />
 				}
 
 				{ systemList && this.renderSystemList() }
+				{ systemList && console.log('# system distance #', systemList[0].distance)}
 
 			</Scene>
 		);
@@ -72,7 +125,9 @@ class MapScene extends Component {
 }
 
 const mapStateToProps = state => {
-	// console.log('MapScene state:', state)
+	if (state.inputReducer.targetSystem) {
+		console.log('MapScene state:', state.inputReducer.targetSystem)
+	}
 	return {
 		targetSystem: state.inputReducer.targetSystem,
 		targetSystemName: state.inputReducer.targetSystemName,

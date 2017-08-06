@@ -3,8 +3,8 @@ import {
 	RECEIVE_SYSTEM_INFO,
 	RECEIVE_SYSTEMS_BY_NAME,
 	TOGGLE_SIDEBAR,
-	SELECT_SYSTEM,
-	FETCH_SYSTEM_INFO } from '../actiontypes';
+	FETCH_SYSTEM_INFO,
+	SET_SYSTEM_DISTANCE } from '../actiontypes';
 import axios from 'axios';
 
 const INIT_SYSTEM_NAME = 'Merope';
@@ -12,7 +12,7 @@ const EDSM_SPHERE_SYSTEMS = 'https://www.edsm.net/api-v1/sphere-systems/';
 const EDSM_SYSTEM = 'https://www.edsm.net/api-v1/system/';
 
 const getSystem = systemName => new Promise(resolve => {
-	axios.get(`${EDSM_SYSTEM}?systemName=${systemName}&showCoordinates=1&showInformation=1&showPrimaryStar=1`)
+	axios.get(`${EDSM_SYSTEM}?systemName=${systemName}&showCoordinates=1&showInformation=1&showPrimaryStar=1&showId=1`)
 	.then(response => {
 		console.log('@ getSystem, response:', response);
 
@@ -20,7 +20,9 @@ const getSystem = systemName => new Promise(resolve => {
 		const targetSystem = {...response.data};
 
 		// Check for undefined props
-		targetSystem.primaryStar? null : targetSystem.primaryStar = {type: 'N/A'};
+		if (!targetSystem.primaryStar) {
+			targetSystem.primaryStar = {type: 'N/A'};
+		}
 
 		resolve(targetSystem);
 	});
@@ -30,7 +32,16 @@ const getNearbySystems = systemName => new Promise(resolve => {
 	axios.get(`${EDSM_SPHERE_SYSTEMS}?systemName=${systemName}&radius=50&showCoordinates=1&showId=1`)
 	.then(response => {
 		console.log('@ getNearbySystems, response', response);
+		response.data.forEach(system => {
+			// system.id = system.id.toString();
 
+			system.labelVisible = false;
+
+			// // Attatch this to each system dom node
+			// system.addEventListener('usermoved', (evt => {
+			// 	console.log('system heard you move!')
+			// }))
+		})
 		resolve(response.data);
 	});
 });
@@ -40,7 +51,7 @@ export const init = () => {
 		dispatch({
 			type: FETCH_SYSTEM_INFO
 		});
-		
+
 		getSystem(INIT_SYSTEM_NAME)
 		.then(targetSystem => {
 			dispatch({
@@ -113,10 +124,7 @@ export const selectSystem = (systemId, systemList) => {
 		let selectedSystem;
 
 		systemList.forEach(system => {
-			console.log('### system.id:', system.id)
-			console.log('### systemId:', systemId)
-			if (parseInt(systemId) === system.id) {
-				console.log('### system match:', system)
+			if (parseInt(systemId, 10) === system.id) {
 				selectedSystem = system;
 			}
 		});
@@ -139,5 +147,35 @@ export const selectSystem = (systemId, systemList) => {
 	// 		systemId: systemId
 	// 	});
 	// }
+}
+
+export const calculateDistance = (systemList, userPos) => {
+	console.log('@ calculateDistance')
+	return dispatch => {
+		systemList.forEach(system => {
+			const xPow = Math.pow(system.coords.x - userPos.x, 2),
+						yPow = Math.pow(system.coords.y - userPos.y, 2),
+						zPow = Math.pow(system.coords.z - userPos.z, 2);
+
+			const sumCoords = (xPow + yPow + zPow);
+
+			system.distance = Math.sqrt(sumCoords);
+		});
+
+		dispatch({
+			type: SET_SYSTEM_DISTANCE,
+			systemList: systemList
+		});
+	}
+}
+
+
+export const handleUserMoved = evt => {
+	console.log('user moved');
+	return dispatch => {
+		dispatch({
+
+		})
+	}
 }
 

@@ -3,4 +3,5 @@ export const SEARCH_SYSTEM_NAME = 'search_system_name',
 						 RECEIVE_SYSTEMS_BY_NAME = 'receive_systems_by_name',
 						 TOGGLE_SIDEBAR = 'toggle_sidebar',
 						 SELECT_SYSTEM = 'select_system',
-						 FETCH_SYSTEM_INFO = 'fetch_system_info';
+						 FETCH_SYSTEM_INFO = 'fetch_system_info',
+						 SET_SYSTEM_DISTANCE = 'set_system_distance';

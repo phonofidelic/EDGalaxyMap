@@ -4,7 +4,8 @@ import {
 	RECEIVE_SYSTEMS_BY_NAME,
 	TOGGLE_SIDEBAR,
 	SELECT_SYSTEM,
-	FETCH_SYSTEM_INFO } from '../actiontypes';
+	FETCH_SYSTEM_INFO,
+	SET_SYSTEM_DISTANCE } from '../actiontypes';
 
 const INITIAL_STATE = {
 	targetSystem: null,
@@ -49,16 +50,22 @@ const inputReducer = (state = INITIAL_STATE, action) => {
 			}
 
 		case SELECT_SYSTEM:
-		const selectedSystem = state.systemList.map(system => {
-			if (system.id === action.systemId) {
-				return system 
-			}
-			return;
-		});
+			const selectedSystem = state.systemList.map(system => {
+				if (system.id === action.systemId) {
+					return system 
+				}
+				return null;
+			});
 
 			return {
 				...state,
 				targetSystem: selectedSystem
+			}
+
+		case SET_SYSTEM_DISTANCE: 
+			return {
+				...state,
+				systemList: action.systemList
 			}
 
 		default: return state;

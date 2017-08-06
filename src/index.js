@@ -9,9 +9,11 @@ import reduxThunk from 'redux-thunk';
 import rootReducer from './reducers';
 import WebfontLoader from '@dr-kobros/react-webfont-loader';
 
+const inspector = window.window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 
-const store = createStoreWithMiddleware(rootReducer);
+const store = createStoreWithMiddleware(rootReducer, inspector);
 
 const config = {
 	google: {
