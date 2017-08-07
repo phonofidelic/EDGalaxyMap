@@ -24,7 +24,12 @@ class MapScene extends Component {
 	}
 
 	renderSystemList() {
-		const { showSystemLabels } = this.props;		
+		const { showSystemLabels } = this.props;
+		const labelOffset = {
+			x: 0.1,
+			y: 0.2,
+			z: 0
+		}
 		console.log('## renderSystemList is called')
 		return (
 			<Entity id="system-list">
@@ -63,12 +68,26 @@ class MapScene extends Component {
 							*/}
 
 							{ 
-								showSystemLabels && <Entity text={{value: system.name, color: '#fff', width: 4}}
-											position={{x: 2, y: 0.3, z: 0}}
-											look-at="#camera" />
+								showSystemLabels && 
+								<Entity>
+									<Entity primitive="a-plane"
+													position={labelOffset}
+													color="#000"
+													look-at="#camera"
+													height="auto"
+													width="auto"
+													text={{
+														value: system.name, 
+														color: '#fff', 
+														align: 'center'
+													}} />
+									<Entity line={{
+										start: {x: 0, y: 0, z: 0}, 
+										end: labelOffset, 
+										color: '#fff'}} />
+								</Entity>
 							}
-
-							
+								
 						</Entity>
 					)
 				})}
@@ -77,19 +96,18 @@ class MapScene extends Component {
 	}
 
 	handleCameraMove(evt) {
-		const {systemList} = this.props;
-		if (evt.detail.name === 'position') {
-			console.log('@ handleCameraMove, evt:', evt)
-			// evt.target.emit('usermoved')
-			if (systemList) {
-				this.props.calculateDistance(systemList, evt.detail.newData);
-			}
-		}
+		// const {systemList} = this.props;
+		// if (evt.detail.name === 'position') {
+			// console.log('@ handleCameraMove, evt:', evt)
+			// // evt.target.emit('usermoved')
+			// if (systemList) {
+			// 	this.props.calculateDistance(systemList, evt.detail.newData);
+			// }
+		// }
 	}
 
 	render() {
-		const { targetSystemName, targetSystem, systemList } = this.props;
-		const camera = document.querySelector('#camera');
+		const { targetSystem, systemList } = this.props;
 
 		return (
 			<Scene>
