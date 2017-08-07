@@ -28,6 +28,7 @@ class NavSidebar extends Component {
 						<div>Population: {targetSystem.information.population}</div>
 					</div>
 					<button onClick={() => {this.props.toggleSystemLabels()}}>Toggle System Labels</button>
+					<button onClick={() => {this.props.toggleCursor()}}>Toggle Cursor</button>
 				</div>
 			);
 		}

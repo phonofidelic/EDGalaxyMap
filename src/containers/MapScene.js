@@ -107,7 +107,7 @@ class MapScene extends Component {
 	}
 
 	render() {
-		const { targetSystem, systemList } = this.props;
+		const { targetSystem, systemList, showCursor } = this.props;
 
 		return (
 			<Scene>
@@ -121,10 +121,21 @@ class MapScene extends Component {
 															z: targetSystem.coords.z/DEVIDER + 1
 														}}
 										events={{componentchanged: this.handleCameraMove.bind(this)}} >
-							<Entity cursor={{fuse: false}}
-											position={{x: 0, y: 0, z: -1}}
-											geometry={{primitive: 'ring', radiusInner: 0.02, radiusOuter: 0.03}}
-											material={{color: '#fff', shader: 'flat'}} />
+							{
+								showCursor &&
+								<Entity cursor={{fuse: false}}
+												id="cursor"
+												position={{x: 0, y: 0, z: -1}}
+												geometry={{primitive: 'circle', radius: 0.02}}
+												material={{color: '#10ffff', shader: 'flat'}}
+												visible={{showCursor}} >
+									<Entity primitive="a-ring"
+													id="cursor-ring"
+													color="#10ffff"												
+													geometry={{radiusInner: 0.045, radiusOuter: 0.05, rotation: {x: 90, y: 0, z: 0}}}
+													position={{x: 0, y: 0, z: 0}} />
+								</Entity>
+							}
 						</Entity>
 
 				}
@@ -150,7 +161,8 @@ const mapStateToProps = state => {
 		targetSystem: state.inputReducer.targetSystem,
 		targetSystemName: state.inputReducer.targetSystemName,
 		systemList: state.inputReducer.systemList,
-		showSystemLabels: state.inputReducer.showSystemLabels
+		showSystemLabels: state.inputReducer.showSystemLabels,
+		showCursor: state.inputReducer.showCursor
 	}
 }
 

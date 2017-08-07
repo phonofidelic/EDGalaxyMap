@@ -5,7 +5,8 @@ import {
 	TOGGLE_SIDEBAR,
 	FETCH_SYSTEM_INFO,
 	SET_SYSTEM_DISTANCE,
-	TOGGLE_SYSTEM_LABELS } from '../actiontypes';
+	TOGGLE_SYSTEM_LABELS,
+	TOGGLE_CURSOR } from '../actiontypes';
 import axios from 'axios';
 
 const INIT_SYSTEM_NAME = 'Merope';
@@ -175,6 +176,14 @@ export const toggleSystemLabels = () => {
 	return dispatch => {
 		dispatch({
 			type: TOGGLE_SYSTEM_LABELS
+		});
+	}
+}
+
+export const toggleCursor = () => {
+	return dispatch => {
+		dispatch({
+			type: TOGGLE_CURSOR
 		});
 	}
 }
