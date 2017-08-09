@@ -10,6 +10,7 @@
     "aframe": "^0.6.1",
     "aframe-line-component": "^1.0.1",
     "aframe-look-at-component": "^0.6.0",
+    "aframe-orbit-controls-component-2": "^0.1.12",
     "aframe-react": "^4.3.0",
     "axios": "^0.16.2",
     "react": "^15.6.1",

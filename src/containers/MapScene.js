@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'aframe';
 import { Entity, Scene } from 'aframe-react';
 import 'aframe-look-at-component';
+import 'aframe-orbit-controls-component-2';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
@@ -108,36 +109,51 @@ class MapScene extends Component {
 
 	render() {
 		const { targetSystem, systemList, showCursor } = this.props;
+		const zeroPos = {x: 0, y: 0, z: 0};
+
+		// let userPos = {x: 0, y: 0, z: 0}
+		// if (targetSystem) {
+		// 	userPos = {
+		// 		x: targetSystem.coords.x/DEVIDER, 
+		// 		y: targetSystem.coords.y/DEVIDER, 
+		// 		z: targetSystem.coords.z/DEVIDER + 1
+		// 	}
+		// }
 
 		return (
 			<Scene>
 				<Entity primitive="a-sky" color="black" />
 
-				{targetSystem && 
-				
-						<Entity primitive="a-camera" id="camera" position={{
-															x: targetSystem.coords.x/DEVIDER, 
-															y: targetSystem.coords.y/DEVIDER, 
-															z: targetSystem.coords.z/DEVIDER + 1
-														}}
-										events={{componentchanged: this.handleCameraMove.bind(this)}} >
-							{
-								showCursor &&
-								<Entity cursor={{fuse: false}}
-												id="cursor"
-												position={{x: 0, y: 0, z: -1}}
-												geometry={{primitive: 'circle', radius: 0.02}}
-												material={{color: '#10ffff', shader: 'flat'}}
-												visible={{showCursor}} >
-									<Entity primitive="a-ring"
-													id="cursor-ring"
-													color="#10ffff"												
-													geometry={{radiusInner: 0.045, radiusOuter: 0.05, rotation: {x: 90, y: 0, z: 0}}}
-													position={{x: 0, y: 0, z: 0}} />
-								</Entity>
-							}
-						</Entity>
+				{ targetSystem && 
+					
+						<Entity primitive="a-camera" 
+										position={{...targetSystem.coords, z: targetSystem.coords.z + 1.5}}
+										id="camera"
+										events={{componentchanged: this.handleCameraMove.bind(this)}}
+										 >	
 
+							<Entity cursor={{fuse: false}}
+											id="cursor"
+											position={{x: 0, y: 0, z: -1}}
+											geometry={{primitive: 'circle', radius: 0.02}}
+											material={{color: '#10ffff', shader: 'flat'}}
+											visible={{showCursor}}
+											 >{/* <-- rotation */}
+								<Entity primitive="a-ring"
+												id="cursor-ring"
+												color="#10ffff"												
+												geometry={{radiusInner: 0.045, radiusOuter: 0.05}}
+												position={{x: 0, y: 0, z: 0}} />
+							</Entity>
+
+						</Entity>
+					
+				}
+
+				{ targetSystem && 
+					<Entity id="target-system"
+									position={targetSystem.coords}>
+					</Entity>
 				}
 
 				{ !targetSystem && 
@@ -167,3 +183,4 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps, actions)(MapScene);
+
