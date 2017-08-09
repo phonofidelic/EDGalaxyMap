@@ -119,18 +119,27 @@ class MapScene extends Component {
 		// 		z: targetSystem.coords.z/DEVIDER + 1
 		// 	}
 		// }
-
+		if (targetSystem) {
 		return (
 			<Scene>
 				<Entity primitive="a-sky" color="black" />
 
 				{ targetSystem && 
 					
-						<Entity primitive="a-camera" 
-										position={{...targetSystem.coords, z: targetSystem.coords.z + 1.5}}
+						<Entity primitive="a-entity"
+										camera="fov: 80; zoom: 1;"
+										position={{...targetSystem.coords, z: targetSystem.coords.z + 2}}
 										id="camera"
 										events={{componentchanged: this.handleCameraMove.bind(this)}}
-										 >	
+										orbit-controls={{
+												autoRotate: false,
+												target: '#cursor-target',
+												enableDamping: true,
+												dampingFactor: 0.25,
+												rotateSpeed: 0.14,
+												minDistance: 2,
+												maxDistance: 15
+											}} >	
 
 							<Entity cursor={{fuse: false}}
 											id="cursor"
@@ -138,12 +147,15 @@ class MapScene extends Component {
 											geometry={{primitive: 'circle', radius: 0.02}}
 											material={{color: '#10ffff', shader: 'flat'}}
 											visible={{showCursor}}
-											 >{/* <-- rotation */}
+											 >
+
 								<Entity primitive="a-ring"
 												id="cursor-ring"
 												color="#10ffff"												
 												geometry={{radiusInner: 0.045, radiusOuter: 0.05}}
-												position={{x: 0, y: 0, z: 0}} />
+												position={{x: 0, y: 0, z: 0}} >
+								</Entity>
+
 							</Entity>
 
 						</Entity>
@@ -151,10 +163,32 @@ class MapScene extends Component {
 				}
 
 				{ targetSystem && 
-					<Entity id="target-system"
-									position={targetSystem.coords}>
+					<Entity id="cursor-target"
+									position={targetSystem.coords}
+									geometry={{primitive: 'circle', radius: 0.02}}
+									material={{color: '#10ffff', shader: 'flat'}}>
 					</Entity>
 				}
+
+				{/*	targetSystem &&
+					<Entity primitive="a-camera" 
+												position={{...targetSystem.coords, z: targetSystem.coords.z + 2}}
+												orbit-controls={{
+													autoRotate: false,
+													target: '#target',
+													enableDamping: true,
+													dampingFactor: 0.25,
+													rotateSpeed: 0.14,
+													minDistance: 2,
+													maxDistance: 15
+												}} >
+					</Entity>
+				*/}
+
+				{/* targetSystem &&
+					<Entity id="target" primitive="a-box" position={targetSystem.coords}></Entity>
+				*/}
+
 
 				{ !targetSystem && 
 					<Entity text={{value: 'Enter the name of the system you wish to view.', width: 4}}
@@ -166,6 +200,7 @@ class MapScene extends Component {
 
 			</Scene>
 		);
+	} else { return(null)}
 	}
 }
 
