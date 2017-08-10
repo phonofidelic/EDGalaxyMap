@@ -3,10 +3,13 @@ import 'aframe';
 import { Entity, Scene } from 'aframe-react';
 import 'aframe-look-at-component';
 import 'aframe-orbit-controls-component-2';
+import THREELib from "three-js";
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
+const THREE = THREELib();
 const DEVIDER = 1;
+const GRID_SCALE = 0.05
 
 class MapScene extends Component {
 
@@ -120,15 +123,17 @@ class MapScene extends Component {
 		// 	}
 		// }
 		if (targetSystem) {
-		return (
-			<Scene>
-				<Entity primitive="a-sky" color="black" />
+			return (
+				<Scene id="scene">
+					<a-assets>
+						<img src="assets/grid.png" id="grid" />
+					</a-assets>
+					<Entity primitive="a-sky" color="black" />
 
-				{ targetSystem && 
-					
+						
 						<Entity primitive="a-entity"
 										camera="fov: 80; zoom: 1;"
-										position={{...targetSystem.coords, z: targetSystem.coords.z + 2}}
+										position={{...targetSystem.coords, y: targetSystem.coords.y + 1, z: targetSystem.coords.z + 2}}
 										id="camera"
 										events={{componentchanged: this.handleCameraMove.bind(this)}}
 										orbit-controls={{
@@ -137,7 +142,7 @@ class MapScene extends Component {
 												enableDamping: true,
 												dampingFactor: 0.25,
 												rotateSpeed: 0.14,
-												minDistance: 2,
+												minDistance: 1,
 												maxDistance: 15
 											}} >	
 
@@ -146,68 +151,79 @@ class MapScene extends Component {
 											position={{x: 0, y: 0, z: -1}}
 											geometry={{primitive: 'circle', radius: 0.02}}
 											material={{color: '#10ffff', shader: 'flat'}}
-											visible={{showCursor}}
-											 >
+											visible={false} >
 
-								<Entity primitive="a-ring"
-												id="cursor-ring"
-												color="#10ffff"												
-												geometry={{radiusInner: 0.045, radiusOuter: 0.05}}
-												position={{x: 0, y: 0, z: 0}} >
-								</Entity>
+								
+								
+
+								
 
 							</Entity>
 
 						</Entity>
-					
-				}
+						
 
-				{ targetSystem && 
-					<Entity id="cursor-target"
-									position={targetSystem.coords}
-									geometry={{primitive: 'circle', radius: 0.02}}
-									material={{color: '#10ffff', shader: 'flat'}}>
-					</Entity>
-				}
+						<Entity id="cursor-target"
+										position={targetSystem.coords}>
+							<Entity position={zeroPos}
+										geometry={{primitive: 'circle', radius: 0.1}}
+										rotation="-90 0 0"
+										material={{color: '#10ffff', shader: 'flat'}} />
 
-				{/*	targetSystem &&
-					<Entity primitive="a-camera" 
-												position={{...targetSystem.coords, z: targetSystem.coords.z + 2}}
-												orbit-controls={{
-													autoRotate: false,
-													target: '#target',
-													enableDamping: true,
-													dampingFactor: 0.25,
-													rotateSpeed: 0.14,
-													minDistance: 2,
-													maxDistance: 15
-												}} >
-					</Entity>
-				*/}
+							<Entity primitive="a-plane"
+											position={zeroPos}
+											scale={{x: GRID_SCALE, y: GRID_SCALE, z: GRID_SCALE}}
+											width="10000"
+											height="10000"
+											rotation="-90 0 0"
+											material={{
+												src: '#grid',
+												repeat: { x: 1000, y: 1000},
+												transparent: true
+											}} />
 
-				{/* targetSystem &&
-					<Entity id="target" primitive="a-box" position={targetSystem.coords}></Entity>
-				*/}
+							<Entity primitive="a-ring"
+											id="cursor-ring"
+											color="#10ffff"												
+											geometry={{radiusInner: 0.2, radiusOuter: 0.22}}
+											position={zeroPos}
+											rotation="-90 0 0"
+											 />
+						</Entity>
 
+						
 
-				{ !targetSystem && 
-					<Entity text={{value: 'Enter the name of the system you wish to view.', width: 4}}
-									position={{x: 0, y: 0, z: -5}} />
-				}
+						{/*
+							<Entity primitive="a-plane"
+											id="grid"
+											position={targetSystem.coords}
+											wireframe={true}
+											rotation="-90 0 0" />
+						*/}
 
-				{ systemList && this.renderSystemList() }
-				{ systemList && console.log('# system distance #', systemList[0].distance)}
+					{/*
+						<Scene>
+							<Entity text={{value: 'Enter the name of the system you wish to view.', width: 4}}
+											position={{x: 0, y: 0, z: -5}} />
+						</Scene> 
+					*/}
 
-			</Scene>
-		);
-	} else { return(null)}
+					{ systemList && this.renderSystemList() }
+
+				</Scene>
+			);
+		} else { 
+			return(
+				null
+			);
+		}
 	}
 }
 
 const mapStateToProps = state => {
-	if (state.inputReducer.targetSystem) {
-		console.log('MapScene state:', state.inputReducer.targetSystem)
-	}
+	// if (state.inputReducer.targetSystem) {
+	// 	console.log('MapScene state:', state.inputReducer.targetSystem)
+	// }
 	return {
 		targetSystem: state.inputReducer.targetSystem,
 		targetSystemName: state.inputReducer.targetSystemName,
