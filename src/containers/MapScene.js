@@ -99,6 +99,40 @@ class MapScene extends Component {
 		);
 	}
 
+	renderOrbitalCursor() {
+		const { targetSystem, zeroPos } = this.props;
+		return (
+			<Entity id="cursor-target"
+							position={targetSystem.coords}>
+				<Entity position={zeroPos}
+								cursor={{fuse: false}}
+								geometry={{primitive: 'circle', radius: 0.1}}
+								rotation="-90 0 0"
+								material={{color: '#10ffff', shader: 'flat'}} />
+
+				<Entity primitive="a-plane"
+								position={zeroPos}
+								scale={{x: GRID_SCALE, y: GRID_SCALE, z: GRID_SCALE}}
+								width="10000"
+								height="10000"
+								rotation="-90 0 0"
+								material={{
+									src: '#grid',
+									repeat: { x: 1000, y: 1000},
+									transparent: true
+								}} />
+
+				<Entity primitive="a-ring"
+								id="cursor-ring"
+								color="#10ffff"												
+								geometry={{radiusInner: 0.2, radiusOuter: 0.22}}
+								position={zeroPos}
+								rotation="-90 0 0"
+								 />
+			</Entity>
+		);
+	}
+
 	handleCameraMove(evt) {
 		// const {systemList} = this.props;
 		// if (evt.detail.name === 'position') {
@@ -146,50 +180,17 @@ class MapScene extends Component {
 												maxDistance: 15
 											}} >	
 
-							<Entity cursor={{fuse: false}}
-											id="cursor"
-											position={{x: 0, y: 0, z: -1}}
-											geometry={{primitive: 'circle', radius: 0.02}}
-											material={{color: '#10ffff', shader: 'flat'}}
-											visible={false} >
-
-								
-								
-
-								
-
-							</Entity>
+							{ showCursor &&
+								<Entity cursor={{fuse: false}}
+												position={{...zeroPos, z: -1}}
+												geometry={{primitive: 'circle', radius: 0.02}}
+												material={{color: '#10ffff'}} />
+							}
 
 						</Entity>
 						
 
-						<Entity id="cursor-target"
-										position={targetSystem.coords}>
-							<Entity position={zeroPos}
-										geometry={{primitive: 'circle', radius: 0.1}}
-										rotation="-90 0 0"
-										material={{color: '#10ffff', shader: 'flat'}} />
-
-							<Entity primitive="a-plane"
-											position={zeroPos}
-											scale={{x: GRID_SCALE, y: GRID_SCALE, z: GRID_SCALE}}
-											width="10000"
-											height="10000"
-											rotation="-90 0 0"
-											material={{
-												src: '#grid',
-												repeat: { x: 1000, y: 1000},
-												transparent: true
-											}} />
-
-							<Entity primitive="a-ring"
-											id="cursor-ring"
-											color="#10ffff"												
-											geometry={{radiusInner: 0.2, radiusOuter: 0.22}}
-											position={zeroPos}
-											rotation="-90 0 0"
-											 />
-						</Entity>
+						{ this.renderOrbitalCursor() }
 
 						
 
