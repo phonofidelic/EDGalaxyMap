@@ -6,7 +6,8 @@ import {
 	FETCH_SYSTEM_INFO,
 	SET_SYSTEM_DISTANCE,
 	TOGGLE_SYSTEM_LABELS,
-	TOGGLE_CURSOR } from '../actiontypes';
+	TOGGLE_CURSOR,
+	TOGGLE_VIEW_MODE } from '../actiontypes';
 import axios from 'axios';
 
 const INIT_SYSTEM_NAME = 'Merope';
@@ -184,6 +185,14 @@ export const toggleCursor = () => {
 	return dispatch => {
 		dispatch({
 			type: TOGGLE_CURSOR
+		});
+	}
+}
+
+export const toggleViewMode = () => {
+	return dispatch => {
+		dispatch({
+			type: TOGGLE_VIEW_MODE
 		});
 	}
 }

@@ -6,4 +6,5 @@ export const SEARCH_SYSTEM_NAME = 'search_system_name',
 						 FETCH_SYSTEM_INFO = 'fetch_system_info',
 						 SET_SYSTEM_DISTANCE = 'set_system_distance',
 						 TOGGLE_SYSTEM_LABELS = 'toggle_system_labels',
-						 TOGGLE_CURSOR = 'toggle_cursor';
+						 TOGGLE_CURSOR = 'toggle_cursor',
+						 TOGGLE_VIEW_MODE = 'toggle_view_mode';
