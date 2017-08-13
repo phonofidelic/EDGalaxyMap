@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import 'aframe';
 import { Entity, Scene } from 'aframe-react';
-import 'aframe-look-at-component';
-import 'aframe-orbit-controls-component-2';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import { DEVIDER } from '../config';
 import OrbitModeContainer from './OrbitModeContainer';
-import SystemListEntity from './SystemListEntity';
-
-// const DEVIDER = 1;
-// const GRID_SCALE = 0.05
+import PanModeContainer from './PanModeContainer';
 
 class MapScene extends Component {
 
@@ -36,8 +30,7 @@ class MapScene extends Component {
 	}
 
 	render() {
-		const { targetSystem, systemList, showCursor, orbitMode } = this.props;
-		const zeroPos = {x: 0, y: 0, z: 0};
+		const { targetSystem, systemList, orbitMode } = this.props;
 
 		// let userPos = {x: 0, y: 0, z: 0}
 		// if (targetSystem) {
@@ -49,14 +42,11 @@ class MapScene extends Component {
 		// }
 		if (targetSystem) {
 			return (
-				<Scene id="scene">
-					<a-assets>
-						<img src="assets/grid.png" id="grid" />
-					</a-assets>
+				<div>
 
-					<Entity primitive="a-sky" color="black" />
 
-						<OrbitModeContainer />
+					{ orbitMode && <OrbitModeContainer /> }
+					{ !orbitMode && <PanModeContainer /> }
 
 					{/*
 						<Scene>
@@ -65,9 +55,9 @@ class MapScene extends Component {
 						</Scene> 
 					*/}
 
-					{ systemList && <SystemListEntity /> }
+					
 
-				</Scene>
+				</div>
 			);
 		} else { 
 			return(

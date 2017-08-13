@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import 'aframe';
-import { Entity, Scene } from 'aframe-react';
+import { Entity } from 'aframe-react';
 import 'aframe-look-at-component';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { DEVIDER } from '../config';
 
 class SystemListEntity extends Component {
-	
+
 	handleSelectSystem(system) {
 		const { targetSystem } = this.props;
 
-		if (targetSystem.id != system.target.id) {
+		if (targetSystem.id !== system.target.id) {
 			console.log('System clicked!', system);
 			this.props.selectSystem(system.target.id, this.props.systemList);
 		}

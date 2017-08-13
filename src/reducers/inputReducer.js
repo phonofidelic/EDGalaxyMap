@@ -18,7 +18,7 @@ const INITIAL_STATE = {
 	showSystemLabels: true,
 	showCursor: true,
 	fetching:false,
-	orbitMode: true
+	orbitMode: false
 };
 
 const inputReducer = (state = INITIAL_STATE, action) => {

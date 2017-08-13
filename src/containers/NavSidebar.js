@@ -27,11 +27,20 @@ class NavSidebar extends Component {
 						<div>Gevornment: {targetSystem.information.government}</div>
 						<div>Population: {targetSystem.information.population}</div>
 					</div>
-					<button onClick={() => {this.props.toggleSystemLabels()}}>Toggle System Labels</button>
-					<button onClick={() => {this.props.toggleCursor()}}>Toggle Cursor</button>
+					
 				</div>
 			);
 		}
+	}
+
+	renderViewControls() {
+		return (
+			<div>
+				<div><button onClick={() => {this.props.toggleSystemLabels()}}>Toggle System Labels</button></div>
+				<div><button onClick={() => {this.props.toggleCursor()}}>Toggle Cursor</button></div>
+				<div><button onClick={() => {this.props.toggleViewMode()}}>Toggle View Mode</button></div>
+			</div>
+		);
 	}
 
 	renderLoadingIcon() {
@@ -61,8 +70,8 @@ class NavSidebar extends Component {
 							<Field className="search-input" name="systemName" type="text" component="input"/>
 							<button className="btn-search" type="submit">Search</button>
 						</form>
-						{this.renderInfo()}
-						
+						{ this.renderInfo() }
+						{ this.renderViewControls() }
 					</div>
 				}
 				{fetching && this.renderLoadingIcon()}
