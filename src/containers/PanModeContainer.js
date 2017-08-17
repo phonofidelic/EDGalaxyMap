@@ -42,8 +42,14 @@ class PanModeContainer extends Component {
 						<Entity primitive="a-text"
 										position={{x: 0.2, y: 0.2, z: -1}}
 										width="0.8"
+										opacity="0"
 										font="https://cdn.aframe.io/fonts/KelsonSans.fnt"
-										value={hudDisplay} />
+										value={hudDisplay} >
+
+							<a-animation attribute="opacity"
+												   dur="1000"
+													 to="1" />
+						</Entity>
 					}
 				</Entity>
 				{ systemList && <SystemListEntity /> }

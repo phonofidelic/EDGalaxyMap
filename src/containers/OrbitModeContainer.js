@@ -10,7 +10,7 @@ import SystemListEntity from './SystemListEntity';
 class OrbitModeContainer extends Component {
 
 	render() {
-		const { targetSystem, showCursor, systemList } = this.props;
+		const { targetSystem, showCursor, systemList, hudDisplay } = this.props;
 		const zeroPos = {x: 0, y: 0, z: 0};
 		return (
 			<Scene id="scene">
@@ -36,10 +36,25 @@ class OrbitModeContainer extends Component {
 										}} >	
 
 						{ showCursor &&
-							<Entity cursor={{fuse: false}}
+							<Entity cursor={{fuse: true, fuseTimeout: 500}}
 											position={{...zeroPos, z: -1}}
 											geometry={{primitive: 'circle', radius: 0.02}}
 											material={{color: '#10ffff'}} />
+						}
+
+						{
+							hudDisplay &&
+							<Entity primitive="a-text"
+											position={{x: 0.2, y: 0.2, z: -1}}
+											width="0.8"
+											opacity="0"
+											font="https://cdn.aframe.io/fonts/KelsonSans.fnt"
+											value={hudDisplay} >
+
+								<a-animation attribute="opacity"
+													   dur="1000"
+														 to="1" />
+							</Entity>
 						}
 
 					</Entity>
@@ -85,8 +100,9 @@ const mapStateToProps = state => {
 		systemList: state.inputReducer.systemList,
 		showSystemLabels: state.inputReducer.showSystemLabels,
 		showCursor: state.inputReducer.showCursor,
-		orbitMode: state.inputReducer.orbitMode
- }
+		orbitMode: state.inputReducer.orbitMode,
+		hudDisplay: state.inputReducer.hudDisplay
+  }
 }
 
 export default connect(mapStateToProps, actions)(OrbitModeContainer);
