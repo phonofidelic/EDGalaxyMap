@@ -81,7 +81,7 @@ class NavSidebar extends Component {
 }
 
 const mapStateToProps = state => {
-	// console.log('NavSidebar, state:', state.inputReducer.showSidebar)
+	console.log('NavSidebar, state:', state.inputReducer.fetching)
 	return {
 		targetSystem: state.inputReducer.targetSystem,
 		targetSystemName: state.inputReducer.targetSystemName,

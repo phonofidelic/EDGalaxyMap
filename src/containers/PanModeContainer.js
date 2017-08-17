@@ -7,8 +7,14 @@ import { Entity, Scene } from 'aframe-react';
 import SystemListEntity from './SystemListEntity';
 
 class PanModeContainer extends Component {
+
+	handleFuse() {
+		console.log('### fused');
+	}
+
 	render() {
-		const { targetSystem, showCursor, systemList } = this.props;
+
+		const { targetSystem, showCursor, systemList, hudDisplay } = this.props;
 		const zeroPos = {x: 0, y: 0, z: 0};
 		return (
 			<Scene id="scene">
@@ -24,11 +30,21 @@ class PanModeContainer extends Component {
 								>
 
 					{ showCursor &&
-							<Entity cursor={{fuse: false}}
-											position={{...zeroPos, z: -1}}
-											geometry={{primitive: 'circle', radius: 0.02}}
-											material={{color: '#10ffff'}} />
-						}
+						<Entity cursor={{fuse: true, fuseTimeout: 500}}
+										
+										position={{...zeroPos, z: -1}}
+										geometry={{primitive: 'ring', radiusOuter: 0.02, radiusInner: 0.015}}
+										material={{color: '#10ffff'}} />
+					}
+
+					{
+						hudDisplay &&
+						<Entity primitive="a-text"
+										position={{x: 0.2, y: 0.2, z: -1}}
+										width="0.8"
+										font="https://cdn.aframe.io/fonts/KelsonSans.fnt"
+										value={hudDisplay} />
+					}
 				</Entity>
 				{ systemList && <SystemListEntity /> }
 			</Scene>
@@ -41,7 +57,8 @@ const mapStateToProps = state => {
 		targetSystem: state.inputReducer.targetSystem,
 		systemList: state.inputReducer.systemList,
 		showSystemLabels: state.inputReducer.showSystemLabels,
-		showCursor: state.inputReducer.showCursor
+		showCursor: state.inputReducer.showCursor,
+		hudDisplay: state.inputReducer.hudDisplay
 	}
 }
 

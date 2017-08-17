@@ -7,7 +7,8 @@ import {
 	SET_SYSTEM_DISTANCE,
 	TOGGLE_SYSTEM_LABELS,
 	TOGGLE_CURSOR,
-	TOGGLE_VIEW_MODE } from '../actiontypes';
+	TOGGLE_VIEW_MODE,
+	UPDATE_HUD } from '../actiontypes';
 import axios from 'axios';
 
 const INIT_SYSTEM_NAME = 'Merope';
@@ -196,3 +197,13 @@ export const toggleViewMode = () => {
 		});
 	}
 }
+
+export const updateHud = (systemName) => {
+	return dispatch => {
+		dispatch({
+			type: UPDATE_HUD,
+			hudDisplay: systemName
+		});
+	}
+}
+

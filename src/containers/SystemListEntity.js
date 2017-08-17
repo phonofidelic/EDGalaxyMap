@@ -11,10 +11,26 @@ class SystemListEntity extends Component {
 	handleSelectSystem(system) {
 		const { targetSystem } = this.props;
 
-		if (targetSystem.id !== system.target.id) {
-			console.log('System clicked!', system);
-			this.props.selectSystem(system.target.id, this.props.systemList);
-		}
+		// if (targetSystem.id !== system.target.id) {
+		// 	console.log('System clicked!', system);
+		// 	this.props.selectSystem(system.target.id, this.props.systemList);
+		// }
+	}
+
+	handleFuse(e) {
+		const { systemList } = this.props;
+		console.log('### fused:', e)
+
+		systemList.forEach(system => {
+			if (parseInt(e.target.id, 10) === system.id) {
+				console.log('### system:', system.name)
+				this.props.updateHud(system.name);
+			}
+		}) 
+	}
+
+	handleUnfuse() {
+		this.props.updateHud(null);
 	}
 
 	render() {
@@ -35,7 +51,12 @@ class SystemListEntity extends Component {
 							<Entity geometry={{primitive: 'sphere', radius: 0.1}}
 											material={{color: '#ccc'}}
 											id={system.id}
-											events={{click: this.handleSelectSystem.bind(this)}}
+											name={system.name}
+											events={{
+												click: this.handleSelectSystem.bind(this), 
+												fusing: this.handleFuse.bind(this),
+												mouseleave: this.handleUnfuse.bind(this)
+											}}
 											 />
 
 							{/* 
@@ -50,7 +71,7 @@ class SystemListEntity extends Component {
 								do not render the systems text label entity.
 							*/}
 
-							{ 
+							{/*
 								showSystemLabels && 
 								<Entity>
 									<Entity primitive="a-plane"
@@ -69,7 +90,7 @@ class SystemListEntity extends Component {
 										end: labelOffset, 
 										color: '#fff'}} />
 								</Entity>
-							}
+							*/}
 								
 						</Entity>
 					)
@@ -80,6 +101,7 @@ class SystemListEntity extends Component {
 }
 
 const mapStateToProps = state => {
+	// console.log('### state, systemList:', state.inputReducer.systemList)
 	return {
 		targetSystem: state.inputReducer.targetSystem,
 		systemList: state.inputReducer.systemList,

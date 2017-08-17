@@ -32,14 +32,6 @@ class MapScene extends Component {
 	render() {
 		const { targetSystem, systemList, orbitMode } = this.props;
 
-		// let userPos = {x: 0, y: 0, z: 0}
-		// if (targetSystem) {
-		// 	userPos = {
-		// 		x: targetSystem.coords.x/DEVIDER, 
-		// 		y: targetSystem.coords.y/DEVIDER, 
-		// 		z: targetSystem.coords.z/DEVIDER + 1
-		// 	}
-		// }
 		if (targetSystem) {
 			return (
 				<div>

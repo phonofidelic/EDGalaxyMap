@@ -8,7 +8,8 @@ import {
 	SET_SYSTEM_DISTANCE,
 	TOGGLE_SYSTEM_LABELS,
 	TOGGLE_CURSOR,
-	TOGGLE_VIEW_MODE } from '../actiontypes';
+	TOGGLE_VIEW_MODE,
+	UPDATE_HUD } from '../actiontypes';
 
 const INITIAL_STATE = {
 	targetSystem: null,
@@ -18,7 +19,8 @@ const INITIAL_STATE = {
 	showSystemLabels: true,
 	showCursor: true,
 	fetching:false,
-	orbitMode: false
+	orbitMode: false,
+	hudDisplay: null
 };
 
 const inputReducer = (state = INITIAL_STATE, action) => {
@@ -90,6 +92,12 @@ const inputReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				orbitMode: !state.orbitMode
+			}
+
+		case UPDATE_HUD:
+			return {
+				...state,
+				hudDisplay: action.hudDisplay
 			}
 
 		default: return state;

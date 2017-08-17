@@ -8,6 +8,7 @@ import { GRID_SCALE } from '../config';
 import SystemListEntity from './SystemListEntity';
 
 class OrbitModeContainer extends Component {
+
 	render() {
 		const { targetSystem, showCursor, systemList } = this.props;
 		const zeroPos = {x: 0, y: 0, z: 0};
@@ -46,7 +47,7 @@ class OrbitModeContainer extends Component {
 					<Entity id="cursor-target"
 									position={targetSystem.coords}>
 						<Entity position={zeroPos}
-										cursor={{fuse: false}}
+										cursor={{fuse: true, fuseTimeout: 500}}
 										geometry={{primitive: 'circle', radius: 0.1}}
 										rotation="-90 0 0"
 										material={{color: '#10ffff', shader: 'flat'}} />
