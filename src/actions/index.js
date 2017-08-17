@@ -153,6 +153,19 @@ export const selectSystem = (systemId, systemList) => {
 	// }
 }
 
+export const hoverSystem = systemName => {
+	return dispatch => {
+		getSystem(systemName)
+		.then(systemData => {
+			console.log('@ hoverSystem, systemData:', systemData)
+			dispatch({
+				type: UPDATE_HUD,
+				hudDisplayData: systemData
+			});
+		})
+	}
+}
+
 export const calculateDistance = (systemList, userPos) => {
 	console.log('@ calculateDistance')
 	return dispatch => {

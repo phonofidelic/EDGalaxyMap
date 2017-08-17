@@ -5,6 +5,7 @@ import 'aframe';
 import { Entity, Scene } from 'aframe-react';
 // import { GRID_SCALE } from '../config';
 import SystemListEntity from './SystemListEntity';
+import HudDisplayEntity from '../components/HudDisplayEntity';
 
 class PanModeContainer extends Component {
 
@@ -38,18 +39,7 @@ class PanModeContainer extends Component {
 					}
 
 
-						<Entity primitive="a-text"
-										id="hud-display"
-										position={{x: 0.2, y: 0.2, z: -1}}
-										width="0.8"
-										opacity="0"
-										font="https://cdn.aframe.io/fonts/KelsonSans.fnt"
-										value="" >
-
-							<a-animation attribute="opacity"
-												   dur="1000"
-													 to="1" />
-						</Entity>
+					<HudDisplayEntity />
 
 
 				</Entity>
@@ -64,8 +54,7 @@ const mapStateToProps = state => {
 		targetSystem: state.inputReducer.targetSystem,
 		systemList: state.inputReducer.systemList,
 		showSystemLabels: state.inputReducer.showSystemLabels,
-		showCursor: state.inputReducer.showCursor,
-		hudDisplay: state.inputReducer.hudDisplay
+		showCursor: state.inputReducer.showCursor
 	}
 }
 

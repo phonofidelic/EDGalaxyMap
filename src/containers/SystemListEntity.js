@@ -21,17 +21,22 @@ class SystemListEntity extends Component {
 	handleFuse(e) {
 		const { systemList } = this.props;
 
-		systemList.forEach(system => {
+		systemList.forEach(system => {			
 			if (parseInt(e.target.id, 10) === system.id) {
-				const element = document.getElementById('hud-display');
+				console.log('@ handleFuse, system:', system)
+				// Get system info
+
+				const hudSystemName = document.getElementById('hud-system-name');
+
 				const obj = {opacity: 0};
+
 				const tween = new TWEEN.Tween(obj)
-					.to({opacity: 1}, 500)
-					.onUpdate(() => {
-						element.setAttribute('text', 'opacity', obj.opacity);
-						element.setAttribute('text', 'value', system.name);
-					})
-					.start();
+				.to({opacity: 1}, 500)
+				.onUpdate(() => {
+					hudSystemName.setAttribute('text', 'opacity', obj.opacity);
+					hudSystemName.setAttribute('text', 'value', system.name);
+				})
+				.start();
 			}
 		});
 	}
@@ -39,12 +44,13 @@ class SystemListEntity extends Component {
 	handleUnfuse(e) {
 		console.log('### unfuse:', e.target.id)
 		
-		const element = document.getElementById('hud-display');
+		const hudSystemName = document.getElementById('hud-system-name');
+
 		const obj = {opacity: 1};
 		const tween = new TWEEN.Tween(obj)
 			.to({opacity: 0}, 500)
 			.onUpdate(() => {
-				element.setAttribute('text', 'opacity', obj.opacity);
+				hudSystemName.setAttribute('text', 'opacity', obj.opacity);
 			})
 			.start();
 
@@ -84,7 +90,7 @@ class SystemListEntity extends Component {
 }
 
 const mapStateToProps = state => {
-	// console.log('### state, systemList:', state.inputReducer.systemList)
+	// console.log('### state, hudDisplayData:', state.inputReducer.hudDisplayData)
 	return {
 		targetSystem: state.inputReducer.targetSystem,
 		systemList: state.inputReducer.systemList,

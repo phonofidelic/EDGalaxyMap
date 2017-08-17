@@ -20,7 +20,7 @@ const INITIAL_STATE = {
 	showCursor: true,
 	fetching:false,
 	orbitMode: false,
-	hudDisplay: null
+	hudDisplayData: null
 };
 
 const inputReducer = (state = INITIAL_STATE, action) => {
@@ -97,7 +97,7 @@ const inputReducer = (state = INITIAL_STATE, action) => {
 		case UPDATE_HUD:
 			return {
 				...state,
-				hudDisplay: action.hudDisplay
+				hudDisplayData: action.hudDisplayData
 			}
 
 		default: return state;

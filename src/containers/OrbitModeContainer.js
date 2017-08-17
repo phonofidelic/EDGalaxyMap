@@ -6,6 +6,8 @@ import 'aframe-orbit-controls-component-2';
 import { Scene, Entity } from 'aframe-react';
 import { GRID_SCALE } from '../config';
 import SystemListEntity from './SystemListEntity';
+import HudDisplayEntity from '../components/HudDisplayEntity';
+import OrbitCursorTargetEntity from '../components/OrbitCursorTargetEntity';
 
 class OrbitModeContainer extends Component {
 
@@ -43,51 +45,11 @@ class OrbitModeContainer extends Component {
 											material={{color: '#10ffff'}} />
 						}
 
-						{
-							hudDisplay &&
-							<Entity primitive="a-text"
-											position={{x: 0.2, y: 0.2, z: -1}}
-											width="0.8"
-											opacity="0"
-											font="https://cdn.aframe.io/fonts/KelsonSans.fnt"
-											value={hudDisplay} >
-
-								<a-animation attribute="opacity"
-													   dur="1000"
-														 to="1" />
-							</Entity>
-						}
+						<HudDisplayEntity />
 
 					</Entity>
 
-					<Entity id="cursor-target"
-									position={targetSystem.coords}>
-						<Entity position={zeroPos}
-										cursor={{fuse: true, fuseTimeout: 500}}
-										geometry={{primitive: 'circle', radius: 0.1}}
-										rotation="-90 0 0"
-										material={{color: '#10ffff', shader: 'flat'}} />
-
-						<Entity primitive="a-plane"
-										position={zeroPos}
-										scale={{x: GRID_SCALE, y: GRID_SCALE, z: GRID_SCALE}}
-										width="10000"
-										height="10000"
-										rotation="-90 0 0"
-										material={{
-											src: '#grid',
-											repeat: { x: 1000, y: 1000},
-											transparent: true
-										}} />
-
-						<Entity primitive="a-ring"
-										id="cursor-ring"
-										color="#10ffff"												
-										geometry={{radiusInner: 0.2, radiusOuter: 0.22}}
-										position={zeroPos}
-										rotation="-90 0 0"
-										 />
-					</Entity>
+					<OrbitCursorTargetEntity targetSystem={targetSystem} />
 				</Entity>
 				{ systemList && <SystemListEntity /> }
 			</Scene>
@@ -101,8 +63,7 @@ const mapStateToProps = state => {
 		systemList: state.inputReducer.systemList,
 		showSystemLabels: state.inputReducer.showSystemLabels,
 		showCursor: state.inputReducer.showCursor,
-		orbitMode: state.inputReducer.orbitMode,
-		hudDisplay: state.inputReducer.hudDisplay
+		orbitMode: state.inputReducer.orbitMode
   }
 }
 
