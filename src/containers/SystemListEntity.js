@@ -9,7 +9,8 @@ import { DEVIDER } from '../config';
 
 class SystemListEntity extends Component {
 
-	handleSelectSystem(system) {
+	handleSelectSystem(e) {
+		console.log('@ handleSelectSystem, e:', e)
 		const { targetSystem } = this.props;
 
 		// if (targetSystem.id !== system.target.id) {
@@ -23,8 +24,7 @@ class SystemListEntity extends Component {
 
 		systemList.forEach(system => {			
 			if (parseInt(e.target.id, 10) === system.id) {
-				console.log('@ handleFuse, system:', system)
-				// Get system info
+				// console.log('@ handleFuse, system:', system)
 
 				const hudSystemName = document.getElementById('hud-system-name');
 
@@ -42,7 +42,7 @@ class SystemListEntity extends Component {
 	}
 
 	handleUnfuse(e) {
-		console.log('### unfuse:', e.target.id)
+		// console.log('### unfuse:', e.target.id)
 		
 		const hudSystemName = document.getElementById('hud-system-name');
 
@@ -77,7 +77,7 @@ class SystemListEntity extends Component {
 											id={system.id}
 											name={system.name}
 											events={{
-												click: this.handleSelectSystem.bind(this), 
+												mousedown: this.handleSelectSystem.bind(this), 
 												fusing: this.handleFuse.bind(this),
 												mouseleave: this.handleUnfuse.bind(this)
 											}} />								

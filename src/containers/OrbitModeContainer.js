@@ -35,7 +35,7 @@ class OrbitModeContainer extends Component {
 											rotateSpeed: 0.14,
 											minDistance: 1,
 											maxDistance: 15
-										}} >	
+									}} >	
 
 						{ 
 							showCursor &&

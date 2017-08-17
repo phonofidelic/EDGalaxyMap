@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import * as actions from '../actions';
+import SystemInfo from '../components/SystemInfo';
+import ViewControls from '../components/ViewControls';
+import LoadingIcon from '../components/LoadingIcon';
 
 const form = reduxForm({
 	form: 'systemName'
@@ -13,50 +16,13 @@ class NavSidebar extends Component {
 		this.props.searchSystemName(formProps);
 	}
 
-	renderInfo() {
-		const { targetSystem } = this.props;
-
-		if (targetSystem) {
-			return (
-				<div className="nav-sidebar-info">
-					<div className="sidebar-system-name">{targetSystem.name}</div>
-					<div className="sidebar-system-info">
-						<div>Star type: {targetSystem.primaryStar.type}</div>
-						<div>Allegiance: {targetSystem.information.allegiance}</div>
-						<div>Economy: {targetSystem.information.economy}</div>
-						<div>Gevornment: {targetSystem.information.government}</div>
-						<div>Population: {targetSystem.information.population}</div>
-					</div>
-					
-				</div>
-			);
-		}
-	}
-
-	renderViewControls() {
-		return (
-			<div>
-				<div><button onClick={() => {this.props.toggleSystemLabels()}}>Toggle System Labels</button></div>
-				<div><button onClick={() => {this.props.toggleCursor()}}>Toggle Cursor</button></div>
-				<div><button onClick={() => {this.props.toggleViewMode()}}>Toggle View Mode</button></div>
-			</div>
-		);
-	}
-
-	renderLoadingIcon() {
-		return (
-			<div className="loading-icon">
-				<img src="assets/EDLoader1.svg" alt="loading..."/>
-			</div>
-		);
-	}
-
 	render() {
-		const { handleSubmit, showSidebar, fetching } = this.props;
+		const { targetSystem, handleSubmit, showSidebar, fetching } = this.props;
 		return(
 			<div className="nav-sidebar">
 				<button className="btn" onClick={() => {this.props.toggleSideBar()}}>Toggle sidebar</button>
-				{showSidebar &&
+				{
+					showSidebar &&
 					<div>
 						<div className="nav-sidebar-header">
 							<img className="carto-logo" src="assets/universal-cartographics.svg" alt="Logo"/>
@@ -70,11 +36,12 @@ class NavSidebar extends Component {
 							<Field className="search-input" name="systemName" type="text" component="input"/>
 							<button className="btn-search" type="submit">Search</button>
 						</form>
-						{ this.renderInfo() }
-						{ this.renderViewControls() }
+						{ targetSystem && <SystemInfo targetSystem={targetSystem} /> }
+						<ViewControls toggleCursor={this.props.toggleCursor} toggleViewMode={this.props.toggleViewMode}/>
 					</div>
 				}
-				{fetching && this.renderLoadingIcon()}
+
+				{ fetching && <LoadingIcon /> }
 			</div>
 		);
 	}

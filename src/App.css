@@ -24,6 +24,10 @@ input {
   margin-left: 5px;
 }
 
+.btn-toggle-cursor {
+  margin-right: 5px;
+}
+
 .nav-sidebar {
   color: #fff;
   position: absolute;
@@ -101,6 +105,11 @@ input {
 .search-input {
   height: 27px;
   border: none;
+}
+
+.view-controls {
+  padding-top: 10px;
+  border-top: 1px solid #747674;
 }
 
 .a-enter-vr-button {
