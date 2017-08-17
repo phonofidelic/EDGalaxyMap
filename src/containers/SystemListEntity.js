@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'aframe';
+import { TWEEN } from 'aframe';
 import { Entity } from 'aframe-react';
 import 'aframe-look-at-component';
 import { connect } from 'react-redux';
@@ -19,18 +20,35 @@ class SystemListEntity extends Component {
 
 	handleFuse(e) {
 		const { systemList } = this.props;
-		console.log('### fused:', e)
 
 		systemList.forEach(system => {
 			if (parseInt(e.target.id, 10) === system.id) {
-				console.log('### system:', system.name)
-				this.props.updateHud(system.name);
+				const element = document.getElementById('hud-display');
+				const obj = {opacity: 0};
+				const tween = new TWEEN.Tween(obj)
+					.to({opacity: 1}, 500)
+					.onUpdate(() => {
+						element.setAttribute('text', 'opacity', obj.opacity);
+						element.setAttribute('text', 'value', system.name);
+					})
+					.start();
 			}
-		}) 
+		});
 	}
 
-	handleUnfuse() {
-		this.props.updateHud(null);
+	handleUnfuse(e) {
+		console.log('### unfuse:', e.target.id)
+		
+		const element = document.getElementById('hud-display');
+		const obj = {opacity: 1};
+		const tween = new TWEEN.Tween(obj)
+			.to({opacity: 0}, 500)
+			.onUpdate(() => {
+				element.setAttribute('text', 'opacity', obj.opacity);
+			})
+			.start();
+
+		// this.props.updateHud(null);
 	}
 
 	render() {
@@ -56,42 +74,7 @@ class SystemListEntity extends Component {
 												click: this.handleSelectSystem.bind(this), 
 												fusing: this.handleFuse.bind(this),
 												mouseleave: this.handleUnfuse.bind(this)
-											}}
-											 />
-
-							{/* 
-								Calculate distance between system entity and camera entity:
-								
-								square root of system coords - camera coords
-
-								const userPos = document.querySelector('#user-pos').object3D.position;
-								Math.sqrt(Math.pow(system.coods.x - userPos.x, 2) + Math.pow(system.coods.y - userPos.y, 2) + Math.pow(system.coods.z - userPos.z, 2))
-
-								If the resulting distance is greater then some set constant,
-								do not render the systems text label entity.
-							*/}
-
-							{/*
-								showSystemLabels && 
-								<Entity>
-									<Entity primitive="a-plane"
-													position={labelOffset}
-													color="#000"
-													look-at="#camera"
-													height="auto"
-													width="auto"
-													text={{
-														value: system.name, 
-														color: '#fff', 
-														align: 'center'
-													}} />
-									<Entity line={{
-										start: {x: 0, y: 0, z: 0}, 
-										end: labelOffset, 
-										color: '#fff'}} />
-								</Entity>
-							*/}
-								
+											}} />								
 						</Entity>
 					)
 				})}

@@ -29,28 +29,29 @@ class PanModeContainer extends Component {
 								id="camera"
 								>
 
-					{ showCursor &&
-						<Entity cursor={{fuse: true, fuseTimeout: 500}}
-										
+					{ 
+						showCursor &&
+						<Entity cursor={{fuse: true, fuseTimeout: 500}}	
 										position={{...zeroPos, z: -1}}
 										geometry={{primitive: 'ring', radiusOuter: 0.02, radiusInner: 0.015}}
 										material={{color: '#10ffff'}} />
 					}
 
-					{
-						hudDisplay &&
+
 						<Entity primitive="a-text"
+										id="hud-display"
 										position={{x: 0.2, y: 0.2, z: -1}}
 										width="0.8"
 										opacity="0"
 										font="https://cdn.aframe.io/fonts/KelsonSans.fnt"
-										value={hudDisplay} >
+										value="" >
 
 							<a-animation attribute="opacity"
 												   dur="1000"
 													 to="1" />
 						</Entity>
-					}
+
+
 				</Entity>
 				{ systemList && <SystemListEntity /> }
 			</Scene>

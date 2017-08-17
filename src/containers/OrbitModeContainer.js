@@ -35,7 +35,8 @@ class OrbitModeContainer extends Component {
 											maxDistance: 15
 										}} >	
 
-						{ showCursor &&
+						{ 
+							showCursor &&
 							<Entity cursor={{fuse: true, fuseTimeout: 500}}
 											position={{...zeroPos, z: -1}}
 											geometry={{primitive: 'circle', radius: 0.02}}
