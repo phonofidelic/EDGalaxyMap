@@ -9,7 +9,8 @@ import {
 	TOGGLE_SYSTEM_LABELS,
 	TOGGLE_CURSOR,
 	TOGGLE_VIEW_MODE,
-	UPDATE_HUD } from '../actiontypes';
+	UPDATE_HUD,
+	TEST } from '../actiontypes';
 
 const INITIAL_STATE = {
 	targetSystem: null,
@@ -67,7 +68,13 @@ const inputReducer = (state = INITIAL_STATE, action) => {
 
 			return {
 				...state,
-				targetSystem: selectedSystem
+				targetSystem: selectedSystem,
+				systemList: state.systemList.map(system => {
+					return {
+						...system,
+						clicks: 0
+					}
+				})
 			}
 
 		case SET_SYSTEM_DISTANCE: 
@@ -98,6 +105,21 @@ const inputReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				hudDisplayData: action.hudDisplayData
+			}
+
+		case TEST:
+			return {
+				...state,
+				systemList: state.systemList.map(system => {
+					if (system.id === action.systemToSelectId) {
+						return {
+							...system,
+							clicks: system.clicks +=1
+						}
+					} else {
+						return system
+					}
+				})
 			}
 
 		default: return state;

@@ -13,59 +13,32 @@ class MapScene extends Component {
 		this.props.init();
 	}
 
-
-	handleUserMove(evt) {
-		console.log('system heard you move!', evt)
-	}
-
-	handleCameraMove(evt) {
-		// const {systemList} = this.props;
-		// if (evt.detail.name === 'position') {
-			// console.log('@ handleCameraMove, evt:', evt)
-			// // evt.target.emit('usermoved')
-			// if (systemList) {
-			// 	this.props.calculateDistance(systemList, evt.detail.newData);
-			// }
-		// }
-	}
-
 	render() {
-		const { targetSystem, systemList, orbitMode } = this.props;
+		const { targetSystem, orbitMode } = this.props;
 
 		if (targetSystem) {
 			return (
 				<div>
 
-
 					{ orbitMode && <OrbitModeContainer /> }
 					{ !orbitMode && <PanModeContainer /> }
-
-					{/*
-						<Scene>
-							<Entity text={{value: 'Enter the name of the system you wish to view.', width: 4}}
-											position={{x: 0, y: 0, z: -5}} />
-						</Scene> 
-					*/}
-
 					
-
 				</div>
 			);
 		} else { 
 			return(
-				null
+				<Scene>
+					<Entity text={{value: 'Enter the name of the system you wish to view.', width: 4}}
+									position={{x: 0, y: 0, z: -5}} />
+				</Scene> 
 			);
 		}
 	}
 }
 
 const mapStateToProps = state => {
-	// if (state.inputReducer.targetSystem) {
-	// 	console.log('MapScene state:', state.inputReducer.targetSystem)
-	// }
 	return {
 		targetSystem: state.inputReducer.targetSystem,
-		systemList: state.inputReducer.systemList,
 		showSystemLabels: state.inputReducer.showSystemLabels,
 		showCursor: state.inputReducer.showCursor,
 		orbitMode: state.inputReducer.orbitMode

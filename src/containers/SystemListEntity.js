@@ -11,12 +11,30 @@ class SystemListEntity extends Component {
 
 	handleSelectSystem(e) {
 		console.log('@ handleSelectSystem, e:', e)
-		const { targetSystem } = this.props;
+		const { systemList, targetSystem } = this.props;
+		const systemToSelectId = parseInt(e.target.id, 10);
 
-		// if (targetSystem.id !== system.target.id) {
-		// 	console.log('System clicked!', system);
-		// 	this.props.selectSystem(system.target.id, this.props.systemList);
-		// }
+		// Dont run if clicked system is already selected
+		if (targetSystem.id !== systemToSelectId) {
+			// this.props.clickSystem(systemToSelectId);
+
+			// [ DEBUGGING ]
+			systemList.forEach(system => {
+				if (system.id === systemToSelectId) {
+					console.log('System clicked!', system);
+
+					// If systems clicks prop is greater than or equal to 2, 
+					// initiate selection os that system
+					if (system.clicks < 1) {
+						this.props.clickSystem(systemToSelectId);
+					} else {
+						this.props.selectSystem(system.id, this.props.systemList);
+					}
+				}
+			})
+			
+			// this.props.selectSystem(system.target.id, this.props.systemList);
+		}
 	}
 
 	handleFuse(e) {
@@ -76,7 +94,7 @@ class SystemListEntity extends Component {
 											material={{color: '#ccc'}}
 											id={system.id}
 											name={system.name}
-											events={{
+											events={{												
 												mousedown: this.handleSelectSystem.bind(this), 
 												fusing: this.handleFuse.bind(this),
 												mouseleave: this.handleUnfuse.bind(this)

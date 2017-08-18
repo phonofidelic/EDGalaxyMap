@@ -8,7 +8,8 @@ import {
 	TOGGLE_SYSTEM_LABELS,
 	TOGGLE_CURSOR,
 	TOGGLE_VIEW_MODE,
-	UPDATE_HUD } from '../actiontypes';
+	UPDATE_HUD,
+	TEST } from '../actiontypes';
 import axios from 'axios';
 
 const INIT_SYSTEM_NAME = 'Merope';
@@ -40,6 +41,7 @@ const getNearbySystems = systemName => new Promise(resolve => {
 			// system.id = system.id.toString();
 
 			system.labelVisible = false;
+			system.clicks = 0;
 
 			// // Attatch this to each system dom node
 			// system.addEventListener('usermoved', (evt => {
@@ -121,6 +123,16 @@ export const toggleSideBar = () => {
 		});
 	}
 };
+
+export const clickSystem = (systemToSelectId) => {
+
+	return dispatch => {
+		dispatch({
+			type: TEST,
+			systemToSelectId: systemToSelectId
+		})
+	}
+}
 
 export const selectSystem = (systemId, systemList) => {
 	console.log('@ selectSystem, system:', systemId);

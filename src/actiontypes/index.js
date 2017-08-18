@@ -8,4 +8,5 @@ export const SEARCH_SYSTEM_NAME = 'search_system_name',
 						 TOGGLE_SYSTEM_LABELS = 'toggle_system_labels',
 						 TOGGLE_CURSOR = 'toggle_cursor',
 						 TOGGLE_VIEW_MODE = 'toggle_view_mode',
-						 UPDATE_HUD = 'update_hud';
+						 UPDATE_HUD = 'update_hud',
+						 TEST = 'test';
