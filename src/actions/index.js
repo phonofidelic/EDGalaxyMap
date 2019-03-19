@@ -15,12 +15,18 @@ import axios from 'axios';
 const INIT_SYSTEM_NAME = 'Merope';
 const EDSM_SPHERE_SYSTEMS = 'https://www.edsm.net/api-v1/sphere-systems/';
 const EDSM_SYSTEM = 'https://www.edsm.net/api-v1/system/';
+const EDSM_SYSTEM_BODIES = 'https://www.edsm.net/api-system-v1/bodies';
 
 const getSystem = systemName => new Promise(resolve => {
 	axios.get(`${EDSM_SYSTEM}?systemName=${systemName}&showCoordinates=1&showInformation=1&showPrimaryStar=1&showId=1`)
-	.then(response => {
-		console.log('@ getSystem, response:', response);
-
+	.then(async response => {
+		console.log('@getSystem, response:', response);
+		const systemBodies = await getSystemBodies(response.data.id);
+		console.log('*** systemBodies:', systemBodies)
+		// .then(response => {
+		// 	console.log('@getSystemBodies: response', response);
+		// })
+		// .catch(err => console.error(err));
 		// Coppy props to new object
 		const targetSystem = {...response.data};
 
@@ -36,7 +42,7 @@ const getSystem = systemName => new Promise(resolve => {
 const getNearbySystems = systemName => new Promise(resolve => {
 	axios.get(`${EDSM_SPHERE_SYSTEMS}?systemName=${systemName}&radius=50&showCoordinates=1&showId=1`)
 	.then(response => {
-		console.log('@ getNearbySystems, response', response);
+		console.log('@getNearbySystems, response', response);
 		response.data.forEach(system => {
 			// system.id = system.id.toString();
 
@@ -51,6 +57,26 @@ const getNearbySystems = systemName => new Promise(resolve => {
 		resolve(response.data);
 	});
 });
+
+// const getSystemBodies = systemId => new Promise((resolve, reject) => {
+// 	axios.get(EDSM_SYSTEM+`?systemId=${systemId}`)
+// 	.then(response => {
+// 		resolve(response.data)
+// 	})
+// 	.catch(err => reject(err));
+// });
+
+const getSystemBodies = async systemId => {
+	let systemBodies;
+	try {
+		systemBodies = await axios.get(EDSM_SYSTEM+`?systemId=${systemId}`);
+	} catch(e) {
+		// statements
+		console.log(e);
+		return e;
+	}
+	return systemBodies;
+}
 
 export const init = () => {
 	return dispatch => {
