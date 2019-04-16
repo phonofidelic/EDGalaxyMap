@@ -8,6 +8,7 @@ import { GRID_SCALE } from '../config';
 import SystemListEntity from './SystemListEntity';
 import HudDisplayEntity from '../components/HudDisplayEntity';
 import OrbitCursorTargetEntity from '../components/OrbitCursorTargetEntity';
+import Grid from '../assets/grid.png';
 
 class OrbitModeContainer extends Component {
 
@@ -17,7 +18,7 @@ class OrbitModeContainer extends Component {
 		return (
 			<Scene id="scene">
 				<a-assets>
-					<img src="assets/grid.png" id="grid" />
+					<img src={Grid} id="grid" />
 				</a-assets>
 
 				<Entity primitive="a-sky" color="black" />	

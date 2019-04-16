@@ -5,6 +5,7 @@ import * as actions from '../actions';
 import SystemInfo from '../components/SystemInfo';
 import ViewControls from '../components/ViewControls';
 import LoadingIcon from '../components/LoadingIcon';
+import Logo from '../assets/universal-cartographics.svg';
 
 const form = reduxForm({
 	form: 'systemName'
@@ -25,7 +26,7 @@ class NavSidebar extends Component {
 					showSidebar &&
 					<div>
 						<div className="nav-sidebar-header">
-							<img className="carto-logo" src="assets/universal-cartographics.svg" alt="Logo"/>
+							<img className="carto-logo" src={Logo} alt="Logo"/>
 							<div className="nav-sidebar-title">
 								<div className="sub-title-text">Universal</div>
 								<h2 className="main-title-text">CARTOGRAPHICS</h2>
