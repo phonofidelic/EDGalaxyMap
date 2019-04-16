@@ -1,5 +1,6 @@
 # EDGalaxyMap
-A web app for viewing the Elite Dangerous Galaxy Map in VR.
+A web app for viewing the Elite Dangerous Galaxy Map in VR. <a href="https://ed-galaxy-map.phonofidelic.now.sh" target="_blank">Click here for a demo</a>
+
 ![Image of the EDGalaxyMap UI](galaxy-map.png)
 
 ## Installation:
